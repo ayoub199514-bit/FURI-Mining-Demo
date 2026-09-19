@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#06101d">
+<title>FURI Mining — Demo</title>
+<style>
+:root{
+ --bg:#050b14;--card:#091525;--card2:#0c1b2e;--line:#15365a;
+ --text:#f1f7ff;--muted:#8ea5c2;--mint:#35efbd;--cyan:#27c9ff;
+ --blue:#438dff;--purple:#8a7cff;--red:#ff4567;
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:
+ radial-gradient(circle at 15% 8%,#06324a 0,transparent 28%),
+ radial-gradient(circle at 90% 22%,#102258 0,transparent 30%),var(--bg);
+ color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif}
+a{text-decoration:none;color:inherit}button{font:inherit}
+.wrap{max-width:1100px;margin:auto;padding:16px 18px 36px}
+.demo{border:1px solid #27435f;background:#0b1728e8;border-radius:14px;padding:11px 14px;text-align:center;color:#c8d7ea;font-size:12px}
+.header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 2px}
+.brand{display:flex;align-items:center;gap:10px}.logo{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;
+ background:linear-gradient(145deg,#0b3d46,#09233b);border:1px solid #17dcae;box-shadow:0 0 22px #19e8b555;font-weight:1000;font-size:25px}
+.brand b{font-size:25px}.brand b span{color:var(--mint)}.brand small{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.head-actions{display:flex;gap:8px}.icon-btn{width:42px;height:42px;border:1px solid var(--line);background:#09182a;border-radius:13px;color:#cfe0f5;cursor:pointer}
+.hero,.mining,.panel,.support{background:linear-gradient(145deg,#0a1729eF,#071220f2);border:1px solid var(--line);border-radius:24px;box-shadow:0 20px 70px #0005}
+.hero{padding:22px;display:grid;grid-template-columns:1.05fr .95fr;gap:20px;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:8px;border:1px solid #1d6a55;background:#082d27;color:#66f1cc;border-radius:999px;padding:8px 12px;font-size:12px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--mint);box-shadow:0 0 12px var(--mint)}
+h1{font-size:clamp(34px,6vw,61px);line-height:.98;margin:18px 0 14px}h1 span{color:var(--mint)}
+.lead{color:#9eb1c9;line-height:1.9;font-size:15px;margin:0}
+.actions{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}.btn{padding:13px 20px;border-radius:14px;border:1px solid var(--line);cursor:pointer;font-weight:850}
+.primary{background:linear-gradient(135deg,#3bf0bf,#20d4c0);color:#032017;border:0}.ghost{background:#101f34;color:#dceaff}
+.rig{min-height:245px;border-radius:20px;display:grid;place-items:center;position:relative;overflow:hidden;background:radial-gradient(circle,#123c52 0,#071423 55%)}
+.rig:before{content:"";width:165px;height:165px;border-radius:30px;border:2px solid #1ce7bf;box-shadow:0 0 35px #16e8c477,inset 0 0 30px #16e8c422;transform:rotate(6deg);position:absolute}
+.rig-core{width:105px;height:105px;border-radius:23px;background:linear-gradient(145deg,#123f53,#071827);border:2px solid #38e9c5;display:grid;place-items:center;font-size:48px;font-weight:1000;box-shadow:0 0 45px #1ae9c655;z-index:1}
+.cards2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}.asset{padding:19px}.asset-head{display:flex;justify-content:space-between;align-items:center}.asset-icon{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-weight:1000;border:1px solid #24e4ae;background:#073d31;font-size:21px}
+.asset-icon.f{border-color:#2f9cff;background:#082c4e}.asset h3{margin:0 0 3px}.asset small{color:var(--muted)}.amount{font-size:29px;font-weight:950;margin-top:12px}.amount em{font-style:normal;color:var(--mint);font-size:14px}
+.spark{height:35px;margin-top:10px;display:flex;align-items:end;gap:4px}.spark i{display:block;flex:1;background:linear-gradient(#3af0bf,#1b6870);border-radius:5px 5px 0 0}
+.mining{margin-top:16px;padding:20px}.mine-top{display:grid;grid-template-columns:1fr 1.25fr;gap:20px;align-items:center}
+.status{display:flex;align-items:center;gap:9px;color:#73f3d1;font-size:14px}.status .dot.off{background:#71839a;box-shadow:none}
+.timer-wrap{text-align:center}.timer-label{color:var(--muted);font-size:14px}.timer{font-variant-numeric:tabular-nums;font-size:clamp(42px,9vw,72px);font-weight:1000;letter-spacing:2px;margin:3px 0}
+.timer-sub{display:flex;justify-content:center;gap:35px;color:#7890ad;font-size:11px}.progress{height:9px;border-radius:99px;background:#10243b;overflow:hidden;margin:18px 0}.progress i{display:block;width:0;height:100%;background:linear-gradient(90deg,var(--mint),var(--cyan));border-radius:99px;transition:width .4s}
+.mine-buttons{display:flex;gap:10px}.mine-buttons .btn{flex:1}.stop{background:#3a1320;border-color:#662337;color:#ff8ca3}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:15px}.stat{padding:15px;border:1px solid var(--line);background:#081321;border-radius:17px}.stat .ico{font-size:20px;color:var(--mint)}.stat small{display:block;color:var(--muted);margin:7px 0 4px}.stat b{font-size:16px}
+.panel{margin-top:16px;padding:19px}.panel-head{display:flex;justify-content:space-between;align-items:center}.panel-head h3{margin:0}.tabs{display:flex;gap:5px;background:#07111e;padding:4px;border:1px solid var(--line);border-radius:12px}.tabs button{background:transparent;border:0;color:#8196b0;padding:7px 10px;border-radius:9px;cursor:pointer;font-size:11px}.tabs button.active{background:#0c745e;color:#dffff6}
+.chart{height:190px;margin-top:14px;display:flex;align-items:flex-end;gap:5px;border-bottom:1px solid #17304b;padding:0 4px}.chart i{flex:1;border-radius:5px 5px 0 0;background:linear-gradient(180deg,#2deab7aa,#2676a633);min-height:12px}
+.nav{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:16px}.nav button{border:1px solid var(--line);background:#071321;color:#8da4bf;border-radius:16px;padding:13px 5px;cursor:pointer}.nav button.active{color:var(--mint);border-color:#1c7e70;background:#09231f}.nav .ni{display:block;font-size:21px;margin-bottom:5px}.nav small{font-size:10px}
+.support{margin-top:16px;padding:15px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-color:#7444d8;background:linear-gradient(100deg,#10132c,#0c1729)}
+.support-left{display:flex;align-items:center;gap:11px}.insta{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,#f58529,#dd2a7b 55%,#8134af);font-size:23px;font-weight:900}
+.support small{display:block;color:var(--muted);margin-top:3px}.support a{direction:ltr;display:flex;gap:10px;align-items:center;border:1px solid #31577c;background:#0b1c30;padding:11px 13px;border-radius:12px;color:#dff1ff;font-size:11px;max-width:55%;overflow:hidden}
+.footer{text-align:center;color:#63758e;font-size:11px;padding:18px 0}.footer strong{color:#9eb0c7}
+@media(max-width:780px){.hero{grid-template-columns:1fr}.rig{min-height:180px}.mine-top{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.support{align-items:stretch;flex-direction:column}.support a{max-width:100%;justify-content:center}.nav small{font-size:9px}}
+@media(max-width:430px){.wrap{padding:11px 12px 25px}.brand b{font-size:21px}.hero{padding:17px}.cards2{gap:9px}.asset{padding:14px}.amount{font-size:23px}.stats{gap:7px}.stat{padding:12px}.nav{gap:4px}.nav button{padding:10px 2px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="demo">DEMO / SIMULATION — لا توجد أصول حقيقية ولا إيداعات أو سحوبات فعلية.</div>
+
+<header class="header">
+ <div class="brand"><div class="logo">F</div><div><b>FURI<span>Mining</span></b><small>مستقبل التعدين الرقمي</small></div></div>
+ <div class="head-actions"><button class="icon-btn" onclick="alert('نسخة تجريبية')">☰</button><button class="icon-btn">◉</button></div>
+</header>
+
+<section class="hero">
+ <div>
+  <div class="pill"><span class="dot"></span> نظام المحاكاة نشط</div>
+  <h1>لوحة تعدين<br><span>FURI</span> الحديثة</h1>
+  <p class="lead">واجهة تجريبية تحاكي تجربة منصة تعدين رقمية، مع مؤشرات أداء وأرصدة وهمية لأغراض العرض والتصميم فقط.</p>
+  <div class="actions"><button class="btn primary" onclick="startMining()">▶ ابدأ التعدين</button><button class="btn ghost" onclick="how()">؟ كيف تعمل؟</button></div>
+ </div>
+ <div class="rig"><div class="rig-core">F</div></div>
+</section>
+
+<section class="cards2">
+ <div class="panel asset"><div class="asset-head"><div><h3>USDT</h3><small>الرصيد التجريبي</small></div><div class="asset-icon">₮</div></div><div class="amount">128.40 <em>USDT</em></div><div class="spark" id="sp1"></div></div>
+ <div class="panel asset"><div class="asset-head"><div><h3>FURI</h3><small>الرصيد التجريبي</small></div><div class="asset-icon f">F</div></div><div class="amount" id="balance">12,840.50 <em>FURI</em></div><div class="spark" id="sp2"></div></div>
+</section>
+
+<section class="mining">
+ <div class="mine-top">
+  <div>
+   <div class="status"><span id="sdot" class="dot off"></span><span id="state">التعدين متوقف</span></div>
+   <h2 style="margin:10px 0 4px">تعدين FURI</h2>
+   <div style="color:var(--muted)">⚡ Hash Rate: <b id="hash">43.5 TH/s</b></div>
+   <div class="progress"><i id="prog"></i></div>
+   <div style="color:var(--muted);font-size:12px">التقدم: <b id="pct">0%</b> · المكافأة التجريبية: <b id="reward">0.0000 FURI</b></div>
+  </div>
+  <div class="timer-wrap">
+   <div class="timer-label">وقت التعدين</div>
+   <div class="timer" id="timer">00:00:00</div>
+   <div class="timer-sub"><span>ساعة</span><span>دقيقة</span><span>ثانية</span></div>
+  </div>
+ </div>
+ <div class="mine-buttons" style="margin-top:17px">
+  <button class="btn primary" id="startBtn" onclick="startMining()">▶ ابدأ التعدين</button>
+  <button class="btn stop" id="stopBtn" onclick="stopMining()" disabled>■ إيقاف التعدين</button>
+ </div>
+</section>
+
+<section class="stats">
+ <div class="stat"><span class="ico">⚡</span><small>سرعة الهاش</small><b id="sHash">43.5 TH/s</b></div>
+ <div class="stat"><span class="ico">◉</span><small>إجمالي المكافآت</small><b id="sReward">3,482.75 FURI</b></div>
+ <div class="stat"><span class="ico">◷</span><small>مدة التشغيل</small><b id="sTime">00:00:00</b></div>
+ <div class="stat"><span class="ico">◎</span><small>حالة الشبكة</small><b style="color:var(--mint)">متصلة</b></div>
+</section>
+
+<section class="panel">
+ <div class="panel-head"><h3>أداء التعدين 📊</h3><div class="tabs"><button class="active">24h</button><button>7d</button><button>30d</button><button>1y</button></div></div>
+ <div class="chart" id="chart"></div>
+</section>
+
+<nav class="nav">
+ <button class="active" onclick="nav(this)"><span class="ni">⌂</span><small>الرئيسية</small></button>
+ <button onclick="nav(this)"><span class="ni">⚒</span><small>التعدين</small></button>
+ <button onclick="nav(this)"><span class="ni">▣</span><small>المحفظة</small></button>
+ <button onclick="nav(this)"><span class="ni">⇄</span><small>التحويلات</small></button>
+ <button onclick="nav(this)"><span class="ni">⚙</span><small>الإعدادات</small></button>
+</nav>
+
+<section class="support">
+ <div class="support-left"><div class="insta">◎</div><div><strong>الدعم والتواصل</strong><small>تواصل معنا عبر Instagram</small></div></div>
+ <a target="_blank" rel="noopener" href="https://www.instagram.com/fututrehelp10?stkn=NHUxM2k2cWcxNzRp"><span>instagram.com/fututrehelp10</span><b>↗</b></a>
+</section>
+
+<div class="footer"><strong>FURI Mining Demo © 2026</strong><br>هذه المنصة للتجربة فقط ولا تمثل أموالاً حقيقية.</div>
+</div>
+
+<script>
+let running=false, elapsed=0, timerId=null, balance=12840.50, reward=0;
+const $=id=>document.getElementById(id);
+
+function fmtTime(sec){let h=Math.floor(sec/3600),m=Math.floor(sec%3600/60),s=sec%60;return [h,m,s].map(x=>String(x).padStart(2,'0')).join(':')}
+function render(){
+ $('timer').textContent=fmtTime(elapsed); $('sTime').textContent=fmtTime(elapsed);
+ let pct=Math.min(100,Math.floor((elapsed%300)/3)); $('pct').textContent=pct+'%'; $('prog').style.width=pct+'%';
+ $('reward').textContent=reward.toFixed(4)+' FURI'; $('balance').innerHTML=balance.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})+' <em>FURI</em>';
+}
+function startMining(){
+ if(running)return;
+ running=true; $('state').textContent='التعدين يعمل الآن'; $('sdot').classList.remove('off');
+ $('startBtn').disabled=true; $('stopBtn').disabled=false;
+ timerId=setInterval(()=>{elapsed++; reward+=0.0007; balance+=0.0007;
+  let h=(43.5+Math.random()*1.8).toFixed(1); $('hash').textContent=h+' TH/s'; $('sHash').textContent=h+' TH/s'; render();
+ },1000); render();
+}
+function stopMining(){
+ if(!running)return;
+ running=false; clearInterval(timerId); timerId=null; $('state').textContent='التعدين متوقف'; $('sdot').classList.add('off');
+ $('startBtn').disabled=false; $('stopBtn').disabled=true; render();
+}
+function how(){alert('هذه نسخة محاكاة: اضغط «ابدأ التعدين» ليبدأ العداد الحقيقي داخل الصفحة، ويمكنك إيقافه في أي وقت. الأرقام تجريبية فقط.')}
+function nav(btn){document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active')}
+function bars(id){let el=$(id);[42,66,51,78,59,87,68,94,74,83,62,91].forEach(v=>{let i=document.createElement('i');i.style.height=v+'%';el.appendChild(i)})}
+bars('chart');bars('sp1');bars('sp2');
+render();
+</script>
+</body>
+</html>
